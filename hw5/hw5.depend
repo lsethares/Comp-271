@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1461120386 source:c:\users\leandra\documents\luc_\luc_spring16\cs\github\comp-271\hw5\main.cpp
+	<iostream>
+	<fstream>
+	<stdlib.h>
+
