@@ -50,7 +50,7 @@ int hash (int val)
     int index = 0;
     double exp = 3.0;                        //digits will start in the thousands place (10^3)
 
-    while (digits.size() != 1)
+    while (digits.size() > 2)
     {
         temp = digits.top();            //pull off top digit
         temp = temp * pow(10.0, exp);   //multiply to put digit in the correct place
@@ -60,8 +60,9 @@ int hash (int val)
         exp--;                  //decrease exponent
     }
 
-    temp = digits.top();
-    index = index + temp;
+    temp = digits.top() * 10;
+    digits.pop();
+    index = index + temp + digits.top() + 1;
     return index;
 }
 
@@ -70,5 +71,8 @@ int main()
     //int SSarray[899999999];
 
     cout << hash(123456789) << endl;
+    cout << hash(987654321) << endl;
+    cout << hash(111111111) << endl;
+    cout << hash(100000000) << endl;
     return 0;
 }
