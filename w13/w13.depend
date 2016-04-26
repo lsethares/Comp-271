@@ -1,0 +1,10 @@
+# depslib dependency file v1.0
+1461197894 source:c:\users\leandra\documents\luc_\luc_spring16\cs\github\comp-271\w13\main.cpp
+	<iostream>
+	<fstream>
+	<stdlib.h>
+	<cstdlib>
+	<stack>
+	<queue>
+	<cmath>
+
