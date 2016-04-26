@@ -40,7 +40,7 @@ int hash (int val)
 
     val = val/10;   //ignores 9th digit
 
-    while(val>100) //goes through each digit up to the 3rd to create a stack
+    while(digits.size() !=6) //goes through each digit up to the 3rd to create a stack
     {
         temp = val % 10;    //
         val = val/10;
@@ -62,17 +62,43 @@ int hash (int val)
 
     temp = digits.top() * 10;
     digits.pop();
-    index = index + temp + digits.top() + 1;
+    index = index + temp + digits.top();
     return index;
+}
+
+bool quad_probing_without_replacement(int key, int hash_table[], int M)
+{
+    /** WRITE THIS FUNCTION. IT SHOULD RETURN TRUE IF THE VALUE IS ADDED, FALSE IF THE HASH
+    TABLE IS FULL (I.E. THERE ARE NO MORE PLACES FOR THE DATA TO BE ENTERED).
+    DON'T FORGET THIS IS LINEAR PROBING WITH REPLACEMENT. **/
+    int pos, i;
+    pos = hash(key);
+    if(hash_table[pos]==0)  //if space is empty
+    {
+        hash_table[pos]=key;
+        return true;
+    }
+    else                    //if space is not empty
+    {
+        for(i=pos+1; (pos+(i * i))%M!=pos; i++)     //look for open spot using quad probing
+        {
+            if(hash_table[i]==0)
+            {
+                hash_table[i]=key;
+                return true;
+            }
+        }
+    }
+    return false;       //table overflow
 }
 
 int main()
 {
-    //int SSarray[899999999];
+    int SSarray[899999999];
 
     cout << hash(123456789) << endl;
     cout << hash(987654321) << endl;
     cout << hash(111111111) << endl;
-    cout << hash(100000000) << endl;
+    cout << hash(000000000) << endl;
     return 0;
 }

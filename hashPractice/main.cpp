@@ -49,7 +49,6 @@ bool linear_probing_with_replacement(int key, int hash_table[], int M)
         return true;
     }
     else                    //if space is not empty
-        .accumulate
     {
         if (division_method(hash_table[pos], M)==pos)      //and the present int is in its correct spot
         {
