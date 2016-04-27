@@ -10,7 +10,7 @@ using namespace std;
 bool getFile (char* filepath, int *& my_array)      //gets file from filepath
 {
     if(my_array!=NULL) delete my_array;
-    my_array = new int[45000000];                   //sets up array for integers to go into
+    my_array = new int[65000];                   //sets up array for integers to go into
     char lineData[10];
     int number;
     ifstream in;
@@ -53,24 +53,26 @@ int hash (int val)
     while (digits.size() > 2)
     {
         temp = digits.top();            //pull off top digit
-        temp = temp * pow(10.0, exp);   //multiply to put digit in the correct place
+        //cout << temp << "\t" << pow(10,exp) << endl;
+        if(exp==2) temp=temp*100;
+        else temp = temp * pow(10, exp);   //multiply to put digit in the correct place
+        //cout << index << "+" << temp << endl;
         index = index + temp;
         digits.pop();                   //remove following two digits
         digits.pop();
-        exp--;                  //decrease exponent
+        exp-=1.0;                  //decrease exponent
     }
 
     temp = digits.top() * 10;
     digits.pop();
-    index = index + temp + digits.top() + 1;
+    index = index + temp + digits.top();
+    //cout << index << "\t" << temp << "\t" << digits.top() << endl << endl;
     return index;
 }
 
+//to fix collisions
 bool quad_probing_without_replacement(int key, int hash_table[], int M)
 {
-    /** WRITE THIS FUNCTION. IT SHOULD RETURN TRUE IF THE VALUE IS ADDED, FALSE IF THE HASH
-    TABLE IS FULL (I.E. THERE ARE NO MORE PLACES FOR THE DATA TO BE ENTERED).
-    DON'T FORGET THIS IS LINEAR PROBING WITH REPLACEMENT. **/
     int pos, i;
     pos = hash(key);
     if(hash_table[pos]==0)  //if space is empty
@@ -82,7 +84,7 @@ bool quad_probing_without_replacement(int key, int hash_table[], int M)
     {
         for(i=pos+1; (pos+(i * i))%M!=pos; i++)     //look for open spot using quad probing
         {
-            if(hash_table[i]==0)
+            if(hash_table[i]==0)                    //if new position is empty
             {
                 hash_table[i]=key;
                 return true;
@@ -94,7 +96,13 @@ bool quad_probing_without_replacement(int key, int hash_table[], int M)
 
 int main()
 {
-    int *array_of_numbers = new int[45000000];
+    /* testing hash function
+    cout << hash(123456789) << endl;
+    cout << hash(987654321) << endl;
+    cout << hash(100203001) << endl;
+    */
+
+    int *array_of_numbers = new int[65000];
 
     getFile("everybodys_socials.txt",array_of_numbers);     //read in SSNs to array
 
@@ -102,7 +110,7 @@ int main()
     cout << "Enter a number from 0 to 45,000,000: ";
     cin >> M;
 
-    int nSS = 45000000;        //nSS is the number of social security numbers;
+    int nSS = 65000;        //nSS is the number of social security numbers;
     int *hash_table=new int [nSS];
     int index;
 
@@ -123,6 +131,7 @@ int main()
 
     ofstream out;                               //open new o fstream to write results to
     out.open("hashed_socials.txt");
+
 
     for (int i=0; i<(nSS-1); i++)               //write out all but the last value of the hash_table
     {
